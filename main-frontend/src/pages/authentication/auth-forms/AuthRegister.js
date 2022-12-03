@@ -53,13 +53,14 @@ const AuthRegister = () => {
         changePassword('');
     }, []);
 
-    function onSignup({firstname,lastname,email,address,password,}) {
+    function onSignup(firstname,lastname,email,address,password,username) {
         let object = [{
-            "Password": password,
-            "Firstname": firstname,
-            "Lastname": lastname,
-            "Email": email,
-            "Address": address,
+            "Username": username.value,
+            "Password": password.value,
+            "Firstname": firstname.value,
+            "Lastname": lastname.value,
+            "Email": email.value,
+            "Address": address.value,
             }]
             console.log(object)
       }
@@ -73,6 +74,7 @@ const AuthRegister = () => {
                     email: '',
                     company: '',
                     password: '',
+                    username: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -80,7 +82,8 @@ const AuthRegister = () => {
                     lastname: Yup.string().max(255).required('Last Name is required'),
                     email: Yup.string().email('Must be a valid email').max(255).required('Email is required').min(8),
                     password: Yup.string().max(255).required('Password is required').min(8),
-                    company: Yup.string().max(255).required('Address is required').min(20)
+                    company: Yup.string().max(255).required('Address is required').min(20),
+                    username : Yup.string().max(255).required('Username is required').min(8),
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
@@ -101,7 +104,7 @@ const AuthRegister = () => {
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="firstname-signup">First Name*</InputLabel>
                                     <OutlinedInput
-                                        id="firstname-login"
+                                        id="firstname-signup"
                                         type="firstname"
                                         value={values.firstname}
                                         name="firstname"
@@ -114,6 +117,27 @@ const AuthRegister = () => {
                                     {touched.firstname && errors.firstname && (
                                         <FormHelperText error id="helper-text-firstname-signup">
                                             {errors.firstname}
+                                        </FormHelperText>
+                                    )}
+                                </Stack>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <Stack spacing={1}>
+                                    <InputLabel htmlFor="username-signup">User Name*</InputLabel>
+                                    <OutlinedInput
+                                        id="username-signup"
+                                        type="firstname"
+                                        value={values.username}
+                                        name="username"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        placeholder="John"
+                                        fullWidth
+                                        error={Boolean(touched.firstname && errors.username)}
+                                    />
+                                    {touched.firstname && errors.firstname && (
+                                        <FormHelperText error id="helper-text-firstname-signup">
+                                            {errors.username}
                                         </FormHelperText>
                                     )}
                                 </Stack>
@@ -146,7 +170,7 @@ const AuthRegister = () => {
                                     <OutlinedInput
                                         fullWidth
                                         error={Boolean(touched.email && errors.email)}
-                                        id="email-login"
+                                        id="email-signup"
                                         type="email"
                                         value={values.email}
                                         name="email"
@@ -254,7 +278,9 @@ const AuthRegister = () => {
                                 <AnimateButton>
             
                                     <Button 
-                                        onClick={() => onSignup(document.getElementById('firstname-signup'), document.getElementById('lastname-signup'), document.getElementById('email-signup'),document.getElementById('company-signup'),document.getElementById('password-signup'))}
+                                        onClick={() => onSignup(
+                                            document.getElementById('firstname-signup'), document.getElementById('lastname-signup'), document.getElementById('email-signup'),document.getElementById('company-signup'),document.getElementById('password-signup'),document.getElementById('username-signup'))
+                                        }
                                         disableElevation
                                         disabled={isSubmitting}
                                         fullWidth
