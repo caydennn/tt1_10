@@ -47,12 +47,10 @@ const AuthLogin = () => {
 
   //function to catch user user and password
   const onLogin = (user, password) => {
-    let data = [
-      {
-        username: user.value,
-        password: password.value,
-      },
-    ];
+    let data = {
+      username: user.value,
+      password: password.value,
+    };
 
     console.log(data);
 
@@ -69,7 +67,7 @@ const AuthLogin = () => {
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
-        navigate("/")
+        navigate("/");
         // console.log(response.headers)
         // Cookies.set('access_token', response.headers['access_token'])
         // console.log(Cookies.get('access_token'))

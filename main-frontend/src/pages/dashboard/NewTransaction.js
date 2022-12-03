@@ -9,8 +9,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import moment from "../../../node_modules/moment/moment";
-
-import data from "../../sample-data/ScheduledTransactions.json";
+import axios from "axios";
 
 export default function NewTransaction() {
   const [open, setOpen] = useState(false);
@@ -36,12 +35,29 @@ export default function NewTransaction() {
 
   const handleSubmit = () => {
     setOpen(false);
-    console.log({
+    const requestBody = {
+      account_id: "123",
       receiving_account_id: receivingID,
       amount: txnAmt,
       comment: comment,
       date: dateTxn,
+    };
+    console.log(requestBody);
+
+    var config = {
+      withCredentials: true,
+      method: "post",
+      url: "http://localhost:8800/api/transactions",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: requestBody,
+    };
+
+    axios(config).then(function (response) {
+      console.log("response", response);
     });
+
     resetAllFields();
   };
 
