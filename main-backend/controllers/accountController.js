@@ -1,18 +1,22 @@
 import Account from "../models/account.js";
 export const getAllAccounts = async (req, res, next) => {
+    console.log("getting all accounts")
     const username = req.users
     try {
-        const allAccounts = await Account.find().find({ user_id: username })
+        const allAccounts = await Account.find()
         res.status(200).json(allAccounts)
     } catch (error) {
-        next(err);        
+        next(err);      
+        console.log(err)  
     }
 }
 
 export const getAccount = async (req, res, next) => {
+    console.log("getting account")
+
     const {account_id} = req.params
     try {
-        const account = await Account.find().find({ account_id: account_id })
+        const account = await Account.find({ account_id: account_id })
         res.status(200).json(account)
     } catch (error) {
         next(err);        
@@ -20,6 +24,7 @@ export const getAccount = async (req, res, next) => {
 }
 
 export const createAccount = async (req, res, next) => {
+    console.log("creating account")
     try {
         // validating schema
         // const errors = validationResult(req);
@@ -43,11 +48,11 @@ export const createAccount = async (req, res, next) => {
         // const salt = bcrypt.genSaltSync(10);
         // const hash = bcrypt.hashSync(reqPassword, salt);
         const newAccount = new Account({ user_id: user_id, account_type: account_type, account_balance: 0 });
-        await newAccount.save();
+        const resp = await newAccount.save();
         // we can only destructure ._doc otherwise we need to find and deselet
         // const { password, ...others } = newAdmin._doc;
 
-        res.status(200).end();
+        res.status(200).json(resp);
     } catch (err) {
         next(err);
     }
