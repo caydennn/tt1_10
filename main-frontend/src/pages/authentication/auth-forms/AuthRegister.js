@@ -29,6 +29,7 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import { first } from 'lodash';
 
 // ============================|| FIREBASE - REGISTER ||============================ //
 
@@ -52,6 +53,17 @@ const AuthRegister = () => {
         changePassword('');
     }, []);
 
+    function onSignup({firstname,lastname,email,address,password,}) {
+        let object = [{
+            "Password": password,
+            "Firstname": firstname,
+            "Lastname": lastname,
+            "Email": email,
+            "Address": address,
+            }]
+            console.log(object)
+      }
+
     return (
         <>
             <Formik
@@ -66,8 +78,9 @@ const AuthRegister = () => {
                 validationSchema={Yup.object().shape({
                     firstname: Yup.string().max(255).required('First Name is required'),
                     lastname: Yup.string().max(255).required('Last Name is required'),
-                    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    password: Yup.string().max(255).required('Password is required')
+                    email: Yup.string().email('Must be a valid email').max(255).required('Email is required').min(8),
+                    password: Yup.string().max(255).required('Password is required').min(8),
+                    company: Yup.string().max(255).required('Address is required').min(20)
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
@@ -129,27 +142,6 @@ const AuthRegister = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="company-signup">Company</InputLabel>
-                                    <OutlinedInput
-                                        fullWidth
-                                        error={Boolean(touched.company && errors.company)}
-                                        id="company-signup"
-                                        value={values.company}
-                                        name="company"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder="Demo Inc."
-                                        inputProps={{}}
-                                    />
-                                    {touched.company && errors.company && (
-                                        <FormHelperText error id="helper-text-company-signup">
-                                            {errors.company}
-                                        </FormHelperText>
-                                    )}
-                                </Stack>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Stack spacing={1}>
                                     <InputLabel htmlFor="email-signup">Email Address*</InputLabel>
                                     <OutlinedInput
                                         fullWidth
@@ -166,6 +158,27 @@ const AuthRegister = () => {
                                     {touched.email && errors.email && (
                                         <FormHelperText error id="helper-text-email-signup">
                                             {errors.email}
+                                        </FormHelperText>
+                                    )}
+                                </Stack>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Stack spacing={1}>
+                                    <InputLabel htmlFor="company-signup">Address*</InputLabel>
+                                    <OutlinedInput
+                                        fullWidth
+                                        error={Boolean(touched.company && errors.company)}
+                                        id="company-signup"
+                                        value={values.company}
+                                        name="company"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        placeholder="Demo Inc."
+                                        inputProps={{}}
+                                    />
+                                    {touched.company && errors.company && (
+                                        <FormHelperText error id="helper-text-company-signup">
+                                            {errors.company}
                                         </FormHelperText>
                                     )}
                                 </Stack>
@@ -239,7 +252,9 @@ const AuthRegister = () => {
                             )}
                             <Grid item xs={12}>
                                 <AnimateButton>
-                                    <Button
+            
+                                    <Button 
+                                        onClick={() => onSignup(document.getElementById('firstname-signup'), document.getElementById('lastname-signup'), document.getElementById('email-signup'),document.getElementById('company-signup'),document.getElementById('password-signup'))}
                                         disableElevation
                                         disabled={isSubmitting}
                                         fullWidth
