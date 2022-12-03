@@ -40,6 +40,13 @@ export const createTransaction = async (req, res) => {
     if (amount < 0) {
       res.status(400).json({message: "Amount must be a positive number"})
     }
+    if (!mongoose.Types.ObjectId.isValid(account_id)) {
+      res.status(400).json({message: `${account_id} is not a valid Account Id`})
+    }
+    if (!mongoose.Types.ObjectId.isValid(account_id)) {
+      res.status(400).json({message: `${receiving_account_id} is not a valid Account Id`})
+    }
+
     const account = await Account.findById(account_id)
     const receiving_account = await Account.findById(receiving_account_id)
     if (!account) {
