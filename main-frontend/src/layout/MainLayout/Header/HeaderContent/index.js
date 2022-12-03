@@ -30,7 +30,6 @@ const HeaderContent = () => {
                 <GithubOutlined />
             </IconButton>
 
-            <Notification />
             {!matchesXs && <Profile />}
             {matchesXs && <MobileSection />}
         </>

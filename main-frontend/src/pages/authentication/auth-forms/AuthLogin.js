@@ -42,6 +42,10 @@ const AuthLogin = () => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+    //function to catch user email and password
+    const onLogin = (email, password) => {
+        console.log(email.value, password.value);
+    };
 
     return (
         <>
@@ -147,6 +151,9 @@ const AuthLogin = () => {
                                         type="submit"
                                         variant="contained"
                                         color="primary"
+                                        onClick={() =>
+                                            onLogin(document.getElementById('email-login'), document.getElementById('-password-login'))
+                                        }
                                     >
                                         Login
                                     </Button>
