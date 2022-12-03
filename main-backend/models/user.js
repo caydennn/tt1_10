@@ -31,6 +31,12 @@ const UserSchema = new mongoose.Schema(
             maxLength: 200,            
             required: true,
         },
+        email: {
+            type: String,
+            minLength: 3,
+            maxLength: 200,
+            required: true,
+        },
         optIntoPhyStatements: {
             type: Number,
             default: 0,
