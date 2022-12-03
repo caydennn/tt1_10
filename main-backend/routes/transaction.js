@@ -5,7 +5,7 @@ import {
   createTransaction,
   updateTransaction,
   deleteTransaction,
-} from "../controllers/transaction_cud.js";
+} from "../controllers/transaction.js";
 const router = Router();
 
 // R
