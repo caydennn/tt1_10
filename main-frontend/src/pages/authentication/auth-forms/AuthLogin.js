@@ -1,5 +1,7 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
+import {useDispatch } from 'react-redux'
+import { login } from "../../../redux/userSlice"
 
 // material-ui
 import {
@@ -32,6 +34,8 @@ import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
+
+  const dispatch = useDispatch()
   const [checked, setChecked] = React.useState(false);
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -52,6 +56,8 @@ const AuthLogin = () => {
       },
     ];
     console.log(data);
+    // dispatch axios user data
+    dispatch(login(data))
   };
 
   return (

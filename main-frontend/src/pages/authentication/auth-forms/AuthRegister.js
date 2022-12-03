@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import axios from "axios"
 
 // material-ui
 import {
@@ -53,16 +54,26 @@ const AuthRegister = () => {
         changePassword('');
     }, []);
 
-    function onSignup(firstname,lastname,email,address,password,username) {
-        let object = [{
-            "Username": username.value,
-            "Password": password.value,
-            "Firstname": firstname.value,
-            "Lastname": lastname.value,
-            "Email": email.value,
-            "Address": address.value,
+    const  onSignup = async (firstname,lastname,email,address,password,username) => {
+        const object = [{
+            "username": username.value,
+            "password": password.value,
+            "firstName": firstname.value,
+            "lastName": lastname.value,
+            "email": email.value,
+            "address": address.value,
             }]
-            console.log(object)
+        
+        try {
+            const response = await axios.post(
+                "http://localhost:8800/api/auth/register",
+                object                
+                )     
+            console.log("posted")       
+        } catch (error) {
+            console.log("error")
+        }
+                        
       }
 
     return (

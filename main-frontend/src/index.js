@@ -1,6 +1,8 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from "react-redux";
+import { store } from './redux/store.js';
 
 // scroll bar
 import 'simplebar/src/simplebar.css';
@@ -13,8 +15,7 @@ import 'assets/third-party/apex-chart.css';
 
 // project import
 import App from './App';
-import { store } from 'store';
-import reportWebVitals from './reportWebVitals';
+
 
 // ==============================|| MAIN - REACT DOM RENDER  ||============================== //
 
@@ -22,11 +23,11 @@ const container = document.getElementById('root');
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
 root.render(
     <StrictMode>
-        <ReduxProvider store={store}>
+        <Provider store={store}>
             <BrowserRouter basename="/free">
                 <App />
             </BrowserRouter>
-        </ReduxProvider>
+        </Provider>
     </StrictMode>
 );
 
