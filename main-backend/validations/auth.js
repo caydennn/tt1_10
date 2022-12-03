@@ -45,6 +45,17 @@ export const registerUserSchemaValidation = checkSchema({
             options: { min: 1, max: 200 },
         },
     },    
+    "email": {
+        in: ["body"],
+        trim: true,
+        exists: {
+            errorMessage: "email is required"
+        },
+        isLength: {
+            errorMessage: "email should be at least 3 chars long",
+            options: { min: 3, max: 200 },
+        },
+    },    
     "address": {
         in: ["body"],
         trim: true,

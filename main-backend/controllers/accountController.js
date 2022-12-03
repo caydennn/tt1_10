@@ -1,9 +1,8 @@
 import Account from "../models/account.js";
 export const getAllAccounts = async (req, res, next) => {
-    console.log("getting all accounts")
-    const username = req.users
+    const username = req.user
     try {
-        const allAccounts = await Account.find()
+        const allAccounts = await Account.find({ user_id: username })
         res.status(200).json(allAccounts)
     } catch (error) {
         next(err);      
@@ -16,7 +15,7 @@ export const getAccount = async (req, res, next) => {
 
     const {account_id} = req.params
     try {
-        const account = await Account.find({ account_id: account_id })
+        const account = await Account.findById(account_id)        
         res.status(200).json(account)
     } catch (error) {
         next(err);        
@@ -26,27 +25,10 @@ export const getAccount = async (req, res, next) => {
 export const createAccount = async (req, res, next) => {
     console.log("creating account")
     try {
-        // validating schema
-        // const errors = validationResult(req);
-        // if (!errors.isEmpty()) {
-        //     // get the first error and just show that
-        //     return next(createError(400, errors.array()[0].msg))
-        // }        
 
         const user_id = req.user            
         //currently logged in admin
         const {account_type} = req.body    
-        
-        // const existingAdmin = await Admin.findOne({ username: username })
-
-        // // if admin with the same username already exist we return error
-        // if (existingAdmin){
-        //     return next(createError(403, `Admin with username ${username} already exist !`));
-        // }
-
-        // const { password:reqPassword } = req.body
-        // const salt = bcrypt.genSaltSync(10);
-        // const hash = bcrypt.hashSync(reqPassword, salt);
         const newAccount = new Account({ user_id: user_id, account_type: account_type, account_balance: 0 });
         const resp = await newAccount.save();
         // we can only destructure ._doc otherwise we need to find and deselet
