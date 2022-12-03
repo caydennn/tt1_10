@@ -11,16 +11,16 @@ import NumberFormat from 'react-number-format';
 // project import
 import Dot from 'components/@extended/Dot';
 
-function createData(txnID, receiveID, comments, dateTime, txnAmt) {
-    return { txnID, receiveID, comments, dateTime, txnAmt };
+function createData(txnID, receiveID, txnAmt, dateTime, comments) {
+    return { txnID, receiveID, txnAmt, dateTime, comments };
 }
 
 const rows = [
-    createData(1, 621156213, 'Monthly Pocket Money'.split("T")[0], '2022-11-08T04:00:00.000Z', 500.00),
-    createData(2, 958945214, 'School Fees', '2022-11-08T04:00:00.000Z', 8996.00),
-    createData(3, 828120424, 'Driving Centre Top-Up', '2022-11-25T04:00:00.000Z', 3000.00),
-    createData(4, 353677039, 'Tuition Fee Payment', '2022-11-17T06:21:00.000Z', 255.00),
-    createData(5, 259555772, 'Books Payment', '2022-11-08T04:00:00.000Z', 32.00)
+    createData(1, 621156213, 500.00, '2022-11-08T04:00:00.000Z', 'Monthly Pocket Money'.split("T")[0]),
+    createData(2, 958945214, 8996.00, '2022-11-08T04:00:00.000Z', 'School Fees'),
+    createData(3, 828120424, 3000.00, '2022-11-25T04:00:00.000Z', ' Driving Centre Top-Up'),
+    createData(4, 353677039, 255.00, '2022-11-17T06:21:00.000Z', 'Tuition Fee Payment'),
+    createData(5, 259555772, 32.00, '2022-11-08T04:00:00.000Z','Books Payment' )
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -65,10 +65,16 @@ const headCells = [
         label: 'Receiving ID'
     },
     {
+        id: 'txnAmt',
+        align: 'right',
+        disablePadding: false,
+        label: 'Transaction Amount (S$)'
+    },
+    {
         id: 'comments',
         align: 'left',
         disablePadding: false,
-        label: 'Description'
+        label: 'Comments'
     },
     {
         id: 'dateTime',
@@ -76,12 +82,6 @@ const headCells = [
         disablePadding: false,
 
         label: 'Date/Time'
-    },
-    {
-        id: 'txnAmt',
-        align: 'right',
-        disablePadding: false,
-        label: 'Transaction Amount (S$)'
     }
 ];
 
@@ -201,13 +201,14 @@ export default function OrderTable() {
                                         </Link>
                                     </TableCell>
                                     <TableCell align="left">{row.receiveID}</TableCell>
+                                    <TableCell align="right">
+                                        <NumberFormat value={row.txnAmt} displayType="text" thousandSeparator />
+                                    </TableCell>
                                     <TableCell align="left">{row.comments}</TableCell>
                                     <TableCell align="left">
                                         {row.dateTime}
                                     </TableCell>
-                                    <TableCell align="right">
-                                        <NumberFormat value={row.txnAmt} displayType="text" thousandSeparator />
-                                    </TableCell>
+
                                 </TableRow>
                             );
                         })}
