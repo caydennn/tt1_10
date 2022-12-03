@@ -1,4 +1,4 @@
-backend/test.db
+ml_backend/test.db
 
-backend/**/__pycache__/
-backend/.pytest_cache
+ml_backend/**/__pycache__/
+ml_backend/.pytest_cache
