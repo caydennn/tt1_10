@@ -37,6 +37,7 @@ import avatar1 from "assets/images/users/avatar-1.png";
 import avatar2 from "assets/images/users/avatar-2.png";
 import avatar3 from "assets/images/users/avatar-3.png";
 import avatar4 from "assets/images/users/avatar-4.png";
+import NewTransaction from "./NewTransaction";
 
 // avatar style
 const avatarSX = {
@@ -83,6 +84,7 @@ const DashboardDefault = () => {
       <Grid item xs={12} sx={{ mb: -2.25 }}>
         <Typography variant="h5">Welcome to DBS!</Typography>
       </Grid>
+
       <Grid item xs={12} sm={6} md={4} lg={3}>
         <AnalyticEcommerce
           title="Total Page Views"
@@ -126,8 +128,9 @@ const DashboardDefault = () => {
         sx={{ display: { sm: "none", md: "block", lg: "none" } }}
       />
 
-      {/**/}
-      {/* */}
+      <Grid item xs={12} md={7} lg={8}>
+        <NewTransaction />
+      </Grid>
 
       {/* row 3 */}
       <Grid item xs={12} md={7} lg={8}>
