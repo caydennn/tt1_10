@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const transactionSchema = new mongoose.Schema(
+const TransactionSchema = new mongoose.Schema(
   {
     //   transaction_id: {
     //     type: String,
@@ -33,4 +33,4 @@ const transactionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Transaction", transactionSchema);
+export default mongoose.model("Transaction", TransactionSchema);
