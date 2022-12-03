@@ -9,8 +9,12 @@ import {
   DialogTitle,
 } from "@mui/material";
 
+import data from "../../sample-data/ScheduledTransactions.json";
+
 export default function NewTransaction() {
   const [open, setOpen] = useState(false);
+  const [focus, setFocused] = useState(false);
+  const onFocus = () => setFocused(true);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,32 +37,39 @@ export default function NewTransaction() {
         <DialogTitle>Schedule a New Transaction</DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
             margin="dense"
-            id="name"
+            id="receiving_account_id"
             label="Receiving Account ID"
-            type="email"
+            type="text"
             fullWidth
-            variant="standard"
+            variant="outlined"
           />
           <TextField
-            autoFocus
             margin="dense"
-            id="name"
+            id="transaction_amount"
             label="Transaction Amount"
             type="number"
             fullWidth
-            variant="standard"
+            variant="outlined"
             inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
           />
           <TextField
-            autoFocus
             margin="dense"
-            id="name"
+            id="comment"
             label="Comment"
-            type="email"
+            type="text"
             fullWidth
-            variant="standard"
+            variant="outlined"
+          />
+          <TextField
+            margin="dense"
+            id="date_of_transaction"
+            // label="Date of Transaction"
+            helperText="Date of Transaction"
+            type="datetime-local"
+            fullWidth
+            variant="outlined"
+            onFocus={onFocus}
           />
         </DialogContent>
         <DialogActions>
