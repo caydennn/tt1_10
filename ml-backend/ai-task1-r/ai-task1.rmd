@@ -1,0 +1,51 @@
+---
+title: "AI Task 1"
+author: "Hock Lam"
+date: "2022-12-03"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(this.path)
+data_raw <- read_csv(here("cleanprofile_start.csv"))
+data_input <- read_csv(here('inputdata.csv'))
+
+data_restruct <- data_raw %>%
+  separate(Address, c('AddressFrag', 'PostalCode'), ' Singapore ', remove = F) %>%
+  separate(AddressFrag, c('AddressFrag', 'UnitNumber'), ' #') %>%
+  separate(AddressFrag, c('Block', 'StreetName'), 9) %>%
+  mutate(HighNetWorthIndividual = ifelse(MonthlyIncome > 8000, 'Yes', 'No'),
+         PostalCode = as.integer(PostalCode))
+```
+
+```{r}
+library(GGally)
+summary(data_restruct %>% is.na)
+
+ggpairs(data_restruct %>% select(AmountInStocks, AmountInBonds), progress = F) # AmountInStocks = opposite of AmountInBonds
+ggpairs(data_restruct %>% select(MonthlyIncome, AmountInStocks, HasRelationshipManager, HighNetWorthIndividual), progress = F)
+```
+
+Missing values in Stocks, Bonds (10%), Relationship Manager (5%)
+
+From pairs plot,
+
+-   High income mostly do stocks, low income mostly do bonds
+
+-   High Income mostly has relationship manager, Low Income mostly doesn't
+
+-   Have marketing manager mostly do stocks
+
+```{r}
+library(simputation)
+data_imputed <- data_restruct %>% 
+  impute_cart(AmountInStocks ~ MonthlyIncome + HasRelationshipManager) %>%
+  impute_cart(HasRelationshipManager ~ MonthlyIncome + AmountInStocks) %>%
+  mutate(AmountInBonds = ifelse(AmountInStocks == 'High', 'Low', 'High'))
+
+
+summary(data_imputed %>% is.na)
+
+write_csv(data_imputed, 'cleanedprofile.csv')
+```
