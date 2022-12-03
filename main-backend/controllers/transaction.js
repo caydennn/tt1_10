@@ -17,7 +17,7 @@ export const getTransactions = async (req, res) => {
     const transactions = await Transaction.find(filter).sort(sort);
     res.status(200).json(transactions);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -28,7 +28,7 @@ export const getTransaction = async (req, res) => {
     const transaction = await Transaction.findById(id);
     res.status(200).json(transaction);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -39,6 +39,9 @@ export const createTransaction = async (req, res) => {
     // hopefully validations.transaction can check the date
     if (amount < 0) {
       res.status(400).json({message: "Amount must be a positive number"})
+    }
+    if (date < Date.now()) {
+      res.status(400).json({message: "Transaction must be in the future"})
     }
     if (!mongoose.Types.ObjectId.isValid(account_id)) {
       res.status(400).json({message: `${account_id} is not a valid Account Id`})
@@ -65,10 +68,6 @@ export const createTransaction = async (req, res) => {
     });
 
     const savedTransaction = await newTransaction.save()
-
-    account.balance = account.balance - amount
-    const updatedAccount = account.save()
-
     res.status(201).json(savedTransaction);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -86,11 +85,20 @@ export const deleteTransaction = async (req, res) => {
 
   try {
     if (mongoose.Types.ObjectId.isValid(id)) {
+      const transaction = await Transaction.findById(id)
+      if (!transaction) {
+        res.status(404).json({ message: `Transaction id ${id} not found` });
+      }
+
+      if (transaction.date < Date.now()) {
+        res.status(400).json({ message: `Cannot delete past transaction` });
+      }
+      
       const resp = await Transaction.findByIdAndRemove(id);
       console.log(resp)
       res.status(204).json(resp);
     } else {
-      res.status(404).json({ message: `Transaction id ${id} not found` });
+      res.status(400).json({message: `${id} is not a valid transaction id`})
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
