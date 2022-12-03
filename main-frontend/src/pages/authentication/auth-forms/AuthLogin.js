@@ -127,18 +127,6 @@ const AuthLogin = () => {
 
                             <Grid item xs={12} sx={{ mt: -1 }}>
                                 <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={checked}
-                                                onChange={(event) => setChecked(event.target.checked)}
-                                                name="checked"
-                                                color="primary"
-                                                size="small"
-                                            />
-                                        }
-                                        label={<Typography variant="h6">Keep me sign in</Typography>}
-                                    />
                                     <Link variant="h6" component={RouterLink} to="" color="text.primary">
                                         Forgot Password?
                                     </Link>
