@@ -47,7 +47,7 @@ app.use(morgan("common"))
 app.use("/api/healthcheck", verifyToken, healthCheckRoutes)
 
 // custom crud routers
-app.use("/accounts", accountRoutes)
+app.use("/accounts", verifyToken, accountRoutes)
 
 //error handler middleware
 app.use(errorHandler);

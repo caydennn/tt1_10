@@ -3,6 +3,7 @@ import { getAllAccounts, getAccount, createAccount } from "../controllers/accoun
 
 const router = Router()
 
-router.get("/:username", getAccount)
+router.get("/:account_id", getAccount)
 router.get("/", getAllAccounts)
+router.post("/", createAccount)
 export default router;

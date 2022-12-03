@@ -30,7 +30,7 @@ export const createAccount = async (req, res, next) => {
 
         const user_id = req.user            
         //currently logged in admin
-        const {account_type, account_balance} = req.body    
+        const {account_type} = req.body    
         
         // const existingAdmin = await Admin.findOne({ username: username })
 
@@ -42,12 +42,12 @@ export const createAccount = async (req, res, next) => {
         // const { password:reqPassword } = req.body
         // const salt = bcrypt.genSaltSync(10);
         // const hash = bcrypt.hashSync(reqPassword, salt);
-        const newAccount= new Account({ user_id: user_id, account_type: account_type, account_balance: account_balance });
+        const newAccount = new Account({ user_id: user_id, account_type: account_type, account_balance: 0 });
         await newAccount.save();
         // we can only destructure ._doc otherwise we need to find and deselet
         // const { password, ...others } = newAdmin._doc;
 
-        res.status(200).json(others);
+        res.status(200).end();
     } catch (err) {
         next(err);
     }
