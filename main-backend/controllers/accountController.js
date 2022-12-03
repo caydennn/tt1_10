@@ -1,4 +1,8 @@
 import Account from "../models/account.js";
+import { validationResult } from "express-validator"
+import {createError} from "../utils/createError.js"
+import { logSuccess } from "../utils/logger.js";
+
 export const getAllAccounts = async (req, res, next) => {
     const username = req.user
     try {
@@ -11,7 +15,7 @@ export const getAllAccounts = async (req, res, next) => {
 }
 
 export const getAccount = async (req, res, next) => {
-    console.log("getting account")
+    logSuccess("getting account")
 
     const {account_id} = req.params
     try {
@@ -23,16 +27,19 @@ export const getAccount = async (req, res, next) => {
 }
 
 export const createAccount = async (req, res, next) => {
-    console.log("creating account")
+    logSuccess("creating account")
     try {
-
+        // validating schema
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            // get the first error and just show that
+            return next(createError(400, errors.array()[0].msg))          
+        }     
         const user_id = req.user            
-        //currently logged in admin
+
         const {account_type} = req.body    
         const newAccount = new Account({ user_id: user_id, account_type: account_type, account_balance: 0 });
         const resp = await newAccount.save();
-        // we can only destructure ._doc otherwise we need to find and deselet
-        // const { password, ...others } = newAdmin._doc;
 
         res.status(200).json(resp);
     } catch (err) {
