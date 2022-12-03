@@ -1,7 +1,9 @@
 import Transaction from "../models/transaction.js";
+import Account from "../models/account.js";
 import mongoose from "mongoose";
 
 export const getTransactions = async (req, res) => {
+  console.log(`Getting all transactions`)
   try {
     let q = req.query;
     // take all the queries except for sort
@@ -21,6 +23,7 @@ export const getTransactions = async (req, res) => {
 
 export const getTransaction = async (req, res) => {
   const { id } = req.params;
+  console.log(`Getting transaction with id: ${id}`)
   try {
     const transaction = await Transaction.findById(id);
     res.status(200).json(transaction);
@@ -30,14 +33,35 @@ export const getTransaction = async (req, res) => {
 };
 
 export const createTransaction = async (req, res) => {
-  // TODO: Add a check for balance
-  const newTransaction = new Transaction({
-    ...req.body,
-    sender_user_id: req.user,
-  });
-
+  console.log(`Creating transaction with ${req.body}`);
   try {
-    const savedTransaction = await newTransaction.save();
+    const {account_id, receiving_account_id, date, amount, comment} = req.body
+    // hopefully validations.transaction can check the date
+    if (amount < 0) {
+      res.status(400).json({message: "Amount must be a positive number"})
+    }
+    const account = await Account.findById(account_id)
+    const receiving_account = await Account.findById(receiving_account_id)
+    if (!account) {
+      res.status(404).json({message: "Account not found"})
+    }
+    if (!receiving_account) {
+      res.status(404).json({message: "Receiving account not found"})
+    }
+    if (account.balance < amount) {
+      res.status(400).json({message: "Insufficient funds"})
+    }
+
+    const newTransaction = new Transaction({
+      ...req.body,
+      sender_user_id: req.user,
+    });
+
+    const savedTransaction = await newTransaction.save()
+
+    account.balance = account.balance - amount
+    const updatedAccount = account.save()
+
     res.status(201).json(savedTransaction);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -45,8 +69,10 @@ export const createTransaction = async (req, res) => {
 };
 
 export const deleteTransaction = async (req, res) => {
+  
   const { id } = req.params;
-    console.log("Deleting...")
+  console.log(`Deleting transaction ${id}...`)
+    
   if (!id) {
     res.status(400).json({ message: `Invalid transaction id ${id}` });
   }
@@ -65,9 +91,9 @@ export const deleteTransaction = async (req, res) => {
 };
 
 export const updateTransaction = async (req, res) => {
+  console.log(`Updating transaction ${req.params.id} with body ${req.body}...`)
   const { id } = req.params;
   const { comment } = req.body;
-  console.log(req.body);
 
   try {
     if (!id) {
