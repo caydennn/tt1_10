@@ -1,4 +1,5 @@
 import User from "../models/user.js";
+import Account from "../models/account.js"
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs"
 import { createError } from "../utils/createError.js";
@@ -31,6 +32,15 @@ export const createUser = async (req, res, next) => {
         await newUser.save();
         // we can only destructure ._doc otherwise we need to find and deselet
         const { password, ...others } = newUser._doc;
+
+        // setting up three accounts by default
+        const newSavingsAccount = new Account({ user_id: newUser.username, account_type: "SAVING", account_balance: Math.floor(Math.random() * 100000) });
+        const newCurrentAccount = new Account({ user_id: newUser.username, account_type: "CURRENT", account_balance: Math.floor(Math.random() * 100000) });
+        const newMultiAccount   = new Account({ user_id: newUser.username, account_type: "MULTIPLIER", account_balance: Math.floor(Math.random() * 100000) });
+
+        await newSavingsAccount.save()
+        await newCurrentAccount.save()
+        await newMultiAccount.save()
 
         res.status(200).json(others);
     } catch (err) {
