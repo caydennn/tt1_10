@@ -117,16 +117,15 @@ const DashboardDefault = () => {
             </Grid>
             <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
 
-            <Grid item xs={12} md={7} lg={8}>
-                <NewTransaction />
-            </Grid>
             {/* row 3  - Transactions */}
             <Grid item xs={12} md={12} lg={12}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
                         <Typography variant="h5">Transaction Information</Typography>
                     </Grid>
-                    <Grid item />
+                    <Grid item>
+                        <NewTransaction />
+                    </Grid>
                 </Grid>
                 <MainCard sx={{ mt: 2 }} content={false}>
                     <OrdersTable />
