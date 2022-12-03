@@ -4,6 +4,7 @@ author: "Hock Lam"
 date: "2022-12-03"
 output: html_document
 ---
+
 ```{r}
 library(tidyverse)
 library(this.path)
@@ -22,22 +23,29 @@ data_restruct <- data_raw %>%
 library(GGally)
 summary(data_restruct %>% is.na)
 
-ggpairs(data_restruct %>% select(AmountInStocks, AmountInBonds)) # AmountInStocks = opposite of AmountInBonds
-ggpairs(data_restruct %>% select(MonthlyIncome, AmountInStocks, HasRelationshipManager, HighNetWorthIndividual))
+ggpairs(data_restruct %>% select(AmountInStocks, AmountInBonds), progress = F) # AmountInStocks = opposite of AmountInBonds
+ggpairs(data_restruct %>% select(MonthlyIncome, AmountInStocks, HasRelationshipManager, HighNetWorthIndividual), progress = F)
 ```
+
 Missing values in Stocks, Bonds (10%), Relationship Manager (5%)
 
 From pairs plot,
-High income mostly do stocks, low income mostly do bonds
-High Income mostly has relationship manager, Low Income mostly doesn't
+
+-   High income mostly do stocks, low income mostly do bonds
+
+-   High Income mostly has relationship manager, Low Income mostly doesn't
+
+-   Have marketing manager mostly do stocks
 
 ```{r}
 library(simputation)
 data_imputed <- data_restruct %>% 
-  impute_cart(AmountInStocks + HasRelationshipManager ~ MonthlyIncome) %>%
+  impute_cart(AmountInStocks ~ MonthlyIncome + HasRelationshipManager) %>%
+  impute_cart(HasRelationshipManager ~ MonthlyIncome + AmountInStocks) %>%
   mutate(AmountInBonds = ifelse(AmountInStocks == 'High', 'Low', 'High'))
 
 
-str(data_imputed)
+summary(data_imputed %>% is.na)
+
 write_csv(data_imputed, 'cleanedprofile.csv')
 ```
