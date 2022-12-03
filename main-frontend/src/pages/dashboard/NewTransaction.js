@@ -63,7 +63,7 @@ export default function NewTransaction() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="contained" onClick={handleClickOpen}>
         Schedule New Transaction
       </Button>
       <Dialog fullWidth={true} open={open} onClose={handleClose}>
