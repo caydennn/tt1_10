@@ -50,7 +50,8 @@ export const createUser = async (req, res, next) => {
 
 export const userLogin = async (req, res, next) => {
     try {
-
+        console.log("user loging in")
+        console.log(req.body)
         // validating schema
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

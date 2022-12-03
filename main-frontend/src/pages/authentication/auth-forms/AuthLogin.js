@@ -1,6 +1,7 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
-
+import axios from "axios";
+import Cookies from "js-cookie";
 // material-ui
 import {
   Button,
@@ -17,7 +18,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-
+// import usenavigate
+import { useNavigate } from "react-router-dom";
 // third party
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -33,7 +35,7 @@ import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
 const AuthLogin = () => {
   const [checked, setChecked] = React.useState(false);
-
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -45,13 +47,34 @@ const AuthLogin = () => {
   //function to catch user email and password
   const onLogin = (email, password) => {
     console.log(email.value, password.value);
-    let data = [
-      {
-        email: email.value,
-        password: password.value,
-      },
-    ];
+    let data = {
+      username: email.value,
+      password: password.value,
+    };
+
     console.log(data);
+
+    var config = {
+      withCredentials: true,
+      method: "post",
+      url: "http://localhost:8800/api/auth/login",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        navigate("/")
+        // console.log(response.headers)
+        // Cookies.set('access_token', response.headers['access_token'])
+        // console.log(Cookies.get('access_token'))
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
