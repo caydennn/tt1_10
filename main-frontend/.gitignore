@@ -110,3 +110,6 @@ dist
 build
 
 package-lock.json
+
+#for node_modules
+node_modules
