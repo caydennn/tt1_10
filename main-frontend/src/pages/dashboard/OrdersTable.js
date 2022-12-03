@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import moment from "../../../node_modules/moment/moment";
 
 // material-ui
 import { Box, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
@@ -12,7 +13,8 @@ import NumberFormat from 'react-number-format';
 import Dot from 'components/@extended/Dot';
 
 function createData(txnID, receiveID, txnAmt, dateTime, comments) {
-    return { txnID, receiveID, txnAmt, dateTime, comments };
+    let changedDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+    return { txnID, receiveID, txnAmt, changedDate, comments };
 }
 
 const rows = [
@@ -206,7 +208,7 @@ export default function OrderTable() {
                                     </TableCell>
                                     <TableCell align="left">{row.comments}</TableCell>
                                     <TableCell align="left">
-                                        {row.dateTime}
+                                        {row.changedDate}
                                     </TableCell>
 
                                 </TableRow>
