@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import express from "express"
 import { connect } from "./utils/db.js";
 import healthCheckRoutes from "./routes/healthcheck.js"
+import accountRoutes from "./routes/account.js"
 import invalidRouteHandler from "./middleware/invalidRoute.js";
 import errorHandler from "./middleware/errorHandler.js";
 import {verifyToken} from "./middleware/verifyToken.js"
@@ -44,6 +45,9 @@ app.use(morgan("common"))
 
 // custom crud routers
 app.use("/api/healthcheck", verifyToken, healthCheckRoutes)
+
+// custom crud routers
+app.use("/accounts", verifyToken, accountRoutes)
 
 //error handler middleware
 app.use(errorHandler);
