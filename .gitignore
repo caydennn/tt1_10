@@ -1,4 +1,7 @@
 ml_backend/test.db
 
-ml_backend/**/__pycache__/
-ml_backend/.pytest_cache
+backend/**/__pycache__/
+backend/.pytest_cache
+package-lock.json
+main-frontend/yarn.lock
+
