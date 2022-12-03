@@ -1,10 +1,10 @@
-// assets
-import { ChromeOutlined, QuestionOutlined } from '@ant-design/icons';
+// // assets
+// import { ChromeOutlined, QuestionOutlined } from '@ant-design/icons';
 
-// icons
-const icons = {
-    ChromeOutlined,
-    QuestionOutlined
-};
+// // icons
+// const icons = {
+//     ChromeOutlined,
+//     QuestionOutlined
+// };
 
-export default support;
+// export default support;
