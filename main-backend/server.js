@@ -12,6 +12,7 @@ import invalidRouteHandler from "./middleware/invalidRoute.js";
 import errorHandler from "./middleware/errorHandler.js";
 import authRoutes from "./routes/auth.js"
 import { logError, logSuccess, logWarn } from "./utils/logger.js";
+import { userLoggedIn } from "./middleware/userLoggedIn.js";
 
 // application
 const app = express()
@@ -51,7 +52,7 @@ app.use("/api/healthcheck",healthCheckRoutes)
 app.use("/api/auth", authRoutes)
 
 // custom crud routers
-app.use("/accounts", verifyToken, accountRoutes)
+app.use("/accounts", userLoggedIn, accountRoutes)
 
 //error handler middleware
 app.use(errorHandler);
