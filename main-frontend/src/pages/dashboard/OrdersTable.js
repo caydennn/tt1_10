@@ -11,21 +11,16 @@ import NumberFormat from 'react-number-format';
 // project import
 import Dot from 'components/@extended/Dot';
 
-function createData(trackingNo, name, fat, carbs, protein) {
-    return { trackingNo, name, fat, carbs, protein };
+function createData(txnID, receiveID, comments, dateTime, txnAmt) {
+    return { txnID, receiveID, comments, dateTime, txnAmt };
 }
 
 const rows = [
-    createData(84564564, 'Camera Lens', 40, 2, 40570),
-    createData(98764564, 'Laptop', 300, 0, 180139),
-    createData(98756325, 'Mobile', 355, 1, 90989),
-    createData(98652366, 'Handset', 50, 1, 10239),
-    createData(13286564, 'Computer Accessories', 100, 1, 83348),
-    createData(86739658, 'TV', 99, 0, 410780),
-    createData(13256498, 'Keyboard', 125, 2, 70999),
-    createData(98753263, 'Mouse', 89, 2, 10570),
-    createData(98753275, 'Desktop', 185, 1, 98063),
-    createData(98753291, 'Chair', 100, 0, 14001)
+    createData(1, 621156213, 'Monthly Pocket Money'.split("T")[0], '2022-11-08T04:00:00.000Z', 500.00),
+    createData(2, 958945214, 'School Fees', '2022-11-08T04:00:00.000Z', 8996.00),
+    createData(3, 828120424, 'Driving Centre Top-Up', '2022-11-25T04:00:00.000Z', 3000.00),
+    createData(4, 353677039, 'Tuition Fee Payment', '2022-11-17T06:21:00.000Z', 255.00),
+    createData(5, 259555772, 'Books Payment', '2022-11-08T04:00:00.000Z', 32.00)
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -58,35 +53,35 @@ function stableSort(array, comparator) {
 
 const headCells = [
     {
-        id: 'trackingNo',
+        id: 'txnID',
         align: 'left',
         disablePadding: false,
-        label: 'Tracking No.'
+        label: 'Transaction ID'
     },
     {
-        id: 'name',
+        id: 'receiveID',
         align: 'left',
         disablePadding: true,
-        label: 'Product Name'
+        label: 'Receiving ID'
     },
     {
-        id: 'fat',
-        align: 'right',
+        id: 'comments',
+        align: 'left',
         disablePadding: false,
-        label: 'Total Order'
+        label: 'Description'
     },
     {
-        id: 'carbs',
+        id: 'dateTime',
         align: 'left',
         disablePadding: false,
 
-        label: 'Status'
+        label: 'Date/Time'
     },
     {
-        id: 'protein',
+        id: 'txnAmt',
         align: 'right',
         disablePadding: false,
-        label: 'Total Amount'
+        label: 'Transaction Amount (S$)'
     }
 ];
 
@@ -156,10 +151,10 @@ OrderStatus.propTypes = {
 
 export default function OrderTable() {
     const [order] = useState('asc');
-    const [orderBy] = useState('trackingNo');
+    const [orderBy] = useState('txnID');
     const [selected] = useState([]);
 
-    const isSelected = (trackingNo) => selected.indexOf(trackingNo) !== -1;
+    const isSelected = (txnID) => selected.indexOf(txnID) !== -1;
 
     return (
         <Box>
@@ -187,7 +182,7 @@ export default function OrderTable() {
                     <OrderTableHead order={order} orderBy={orderBy} />
                     <TableBody>
                         {stableSort(rows, getComparator(order, orderBy)).map((row, index) => {
-                            const isItemSelected = isSelected(row.trackingNo);
+                            const isItemSelected = isSelected(row.txnID);
                             const labelId = `enhanced-table-checkbox-${index}`;
 
                             return (
@@ -197,21 +192,21 @@ export default function OrderTable() {
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     aria-checked={isItemSelected}
                                     tabIndex={-1}
-                                    key={row.trackingNo}
+                                    key={row.txnID}
                                     selected={isItemSelected}
                                 >
                                     <TableCell component="th" id={labelId} scope="row" align="left">
                                         <Link color="secondary" component={RouterLink} to="">
-                                            {row.trackingNo}
+                                            {row.txnID}
                                         </Link>
                                     </TableCell>
-                                    <TableCell align="left">{row.name}</TableCell>
-                                    <TableCell align="right">{row.fat}</TableCell>
+                                    <TableCell align="left">{row.receiveID}</TableCell>
+                                    <TableCell align="left">{row.comments}</TableCell>
                                     <TableCell align="left">
-                                        <OrderStatus status={row.carbs} />
+                                        {row.dateTime}
                                     </TableCell>
                                     <TableCell align="right">
-                                        <NumberFormat value={row.protein} displayType="text" thousandSeparator prefix="$" />
+                                        <NumberFormat value={row.txnAmt} displayType="text" thousandSeparator />
                                     </TableCell>
                                 </TableRow>
                             );
