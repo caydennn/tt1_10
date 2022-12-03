@@ -51,8 +51,8 @@ app.use(morgan("common"))
 app.use("/api/healthcheck",healthCheckRoutes)
 app.use("/api/auth", authRoutes)
 
-// custom crud routers
-app.use("/accounts", userLoggedIn, accountRoutes)
+// account routers
+app.use("/api/accounts", userLoggedIn, accountRoutes)
 
 //error handler middleware
 app.use(errorHandler);
