@@ -3,13 +3,14 @@ import mongoSanitize from "express-mongo-sanitize";
 import cors from "cors"
 import morgan from "morgan";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import express from "express"
 import { connect } from "./utils/db.js";
 import healthCheckRoutes from "./routes/healthcheck.js"
 import accountRoutes from "./routes/account.js"
 import invalidRouteHandler from "./middleware/invalidRoute.js";
 import errorHandler from "./middleware/errorHandler.js";
-import {verifyToken} from "./middleware/verifyToken.js"
+import authRoutes from "./routes/auth.js"
 import { logError, logSuccess, logWarn } from "./utils/logger.js";
 
 // application
@@ -31,6 +32,8 @@ app.all("*", (req, res, next) => {
 app.use(helmet())
 // cors middleware
 app.use(cors())
+// parse cookie
+app.use(cookieParser())
 // parse body and put it to req.body
 app.use(express.json())
 // security middleware for nosql injections
@@ -44,7 +47,8 @@ app.use(mongoSanitize({
 app.use(morgan("common"))
 
 // custom crud routers
-app.use("/api/healthcheck", verifyToken, healthCheckRoutes)
+app.use("/api/healthcheck",healthCheckRoutes)
+app.use("/api/auth", authRoutes)
 
 // custom crud routers
 app.use("/accounts", verifyToken, accountRoutes)
