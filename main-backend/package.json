@@ -1,0 +1,41 @@
+{
+  "name": "dbs--backend-template",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Backend template for hackathon",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shahan007/DBS--Backend-Template.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shahan007/DBS--Backend-Template/issues"
+  },
+  "homepage": "https://github.com/shahan007/DBS--Backend-Template#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "chalk": "^5.1.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-jwt": "^7.7.7",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-validator": "^6.14.2",
+    "helmet": "^6.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^3.0.0",
+    "mongoose": "^6.7.5",
+    "morgan": "^1.10.0"
+  }
+}

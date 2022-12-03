@@ -1,11 +1,5 @@
-Boilerplate for SEED 2022
+DBS Seed TechTrek 2022
 
-For .env to be shared by docker-compose and backend, project has been designed such that docker build needs to be run from root.
-
-Backend: Fastapi
-- Built-in Swagger UI docs (Change metadata at metadata_docs.py)
-- Database credentials and hashing setting set in `.env`: create using config.py pydantic model
-- JWT oauth2 security
-- Alembic DB versioning
-- Docker-compose for backend and MySQL database
-- Pytest /user route test suite
+This is the repository for the DBS Seed TechTrek 2022. The repository contains the following:
+ - main-backend: This contains the main server code for the backend, which runs using NodeJS, Express and MongoDB.
+ - 
