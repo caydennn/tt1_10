@@ -42,12 +42,11 @@ const AuthLogin = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  //function to catch user email and password
-  const onLogin = (email, password) => {
-    console.log(email.value, password.value);
+  //function to catch user user and password
+  const onLogin = (user, password) => {
     let data = [
       {
-        email: email.value,
+        username: user.value,
         password: password.value,
       },
     ];
@@ -58,12 +57,12 @@ const AuthLogin = () => {
     <>
       <Formik
         initialValues={{
-          email: "",
+          username: "",
           password: "",
           submit: null,
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().min(8).required("Username is required"),
+          username: Yup.string().min(8).required("Username is required"),
           password: Yup.string().min(8).required("Password is required"),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
@@ -93,21 +92,20 @@ const AuthLogin = () => {
                   <InputLabel htmlFor="email-login">Username</InputLabel>
                   <OutlinedInput
                     id="email-login"
-                    type="email"
                     value={values.email}
-                    name="email"
+                    name="username"
                     onBlur={handleBlur}
                     onChange={handleChange}
                     placeholder="Enter Username"
                     fullWidth
-                    error={Boolean(touched.email && errors.email)}
+                    error={Boolean(touched.user && errors.user)}
                   />
-                  {touched.email && errors.email && (
+                  {touched.username && errors.username && (
                     <FormHelperText
                       error
                       id="standard-weight-helper-text-email-login"
                     >
-                      {errors.email}
+                      {errors.username}
                     </FormHelperText>
                   )}
                 </Stack>
