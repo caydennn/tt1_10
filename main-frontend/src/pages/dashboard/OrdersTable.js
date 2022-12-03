@@ -16,16 +16,11 @@ function createData(txnID, receiveID, comments, dateTime, txnAmt) {
 }
 
 const rows = [
-    createData(84564564, 'Camera Lens', 40, 2, 40570),
-    createData(98764564, 'Laptop', 300, 0, 180139),
-    createData(98756325, 'Mobile', 355, 1, 90989),
-    createData(98652366, 'Handset', 50, 1, 10239),
-    createData(13286564, 'Computer Accessories', 100, 1, 83348),
-    createData(86739658, 'TV', 99, 0, 410780),
-    createData(13256498, 'Keyboard', 125, 2, 70999),
-    createData(98753263, 'Mouse', 89, 2, 10570),
-    createData(98753275, 'Desktop', 185, 1, 98063),
-    createData(98753291, 'Chair', 100, 0, 14001)
+    createData(1, 621156213, 'Monthly Pocket Money'.split("T")[0], '2022-11-08T04:00:00.000Z', 500.00),
+    createData(2, 958945214, 'School Fees', '2022-11-08T04:00:00.000Z', 8996.00),
+    createData(3, 828120424, 'Driving Centre Top-Up', '2022-11-25T04:00:00.000Z', 3000.00),
+    createData(4, 353677039, 'Tuition Fee Payment', '2022-11-17T06:21:00.000Z', 255.00),
+    createData(5, 259555772, 'Books Payment', '2022-11-08T04:00:00.000Z', 32.00)
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -86,7 +81,7 @@ const headCells = [
         id: 'txnAmt',
         align: 'right',
         disablePadding: false,
-        label: 'Transaction Amount'
+        label: 'Transaction Amount (S$)'
     }
 ];
 
@@ -211,7 +206,7 @@ export default function OrderTable() {
                                         {row.dateTime}
                                     </TableCell>
                                     <TableCell align="right">
-                                        <NumberFormat value={row.txnAmt} displayType="text" thousandSeparator prefix="$" />
+                                        <NumberFormat value={row.txnAmt} displayType="text" thousandSeparator />
                                     </TableCell>
                                 </TableRow>
                             );
