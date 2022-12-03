@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs"
 import { createError } from "../utils/createError.js";
 import { validationResult } from "express-validator"
-import { createAccount } from "./accountController.js"
 
 // create new user
 export const createUser = async (req, res, next) => {
