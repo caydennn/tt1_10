@@ -2,3 +2,5 @@ backend/test.db
 
 backend/**/__pycache__/
 backend/.pytest_cache
+package-lock.json
+main-frontend/yarn.lock
