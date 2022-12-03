@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import axios from 'axios';
 
 // material-ui
 import {
@@ -45,6 +46,8 @@ const AuthLogin = () => {
     //function to catch user email and password
     const onLogin = (email, password) => {
         console.log(email.value, password.value);
+        const data = { Email: email.value, Password: password.value };
+        console.log(data);
     };
 
     return (
